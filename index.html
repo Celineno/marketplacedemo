@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Second Look Marketplace</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-copy">
+        <a class="brand" href="/">Second Life</a>
+        <p>We breathe new life into your old products.</p>
+      </div>
+      <a class="notes-link" href="/notes">/notes</a>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="browse-heading">
+        <div>
+          <p class="eyebrow">Local second-hand finds</p>
+          <h1 id="browse-heading">Browse listings</h1>
+        </div>
+        <label class="search">
+          <span class="visually-hidden">Search listings</span>
+          <input id="search-input" type="search" placeholder="Try “standing desk under $50”" />
+        </label>
+      </section>
+
+      <details class="add-listing-panel">
+        <summary>Add a listing</summary>
+        <form id="add-listing-form" class="add-listing-form">
+          <label>Title<input id="new-title" name="title" required /></label>
+          <label>Price (SGD)<input id="new-price" name="price" type="number" min="0" step="0.01" required /></label>
+          <label>Location<input id="new-location" name="location" placeholder="e.g. Bedok" required /></label>
+          <label>Category<input id="new-category" name="category" placeholder="e.g. kitchen" required /></label>
+          <label class="form-wide">Description<textarea id="new-description" name="description" rows="3" required></textarea></label>
+          <label class="form-wide">Image URL (optional)<input id="new-image" name="image" type="url" placeholder="https://example.com/photo.jpg" /></label>
+          <img id="image-preview" class="new-image-preview" alt="Listing image preview" hidden />
+          <div class="form-actions form-wide"><button type="submit">Publish listing</button><p id="add-listing-status" aria-live="polite"></p></div>
+        </form>
+      </details>
+
+      <section aria-live="polite">
+        <div class="filters" aria-label="Listing filters">
+          <label>Sort by price
+            <select id="price-sort">
+              <option value="default">Recommended</option>
+              <option value="low-high">Price: low to high</option>
+              <option value="high-low">Price: high to low</option>
+            </select>
+          </label>
+          <label>Maximum price (SGD)
+            <input id="max-price" type="number" min="0" inputmode="numeric" placeholder="Any price" />
+          </label>
+          <label>Neighbourhood
+            <select id="location-filter"><option value="">All locations</option></select>
+          </label>
+          <label>Category
+            <select id="category-filter"><option value="">All categories</option></select>
+          </label>
+          <button id="clear-filters" class="clear-filters" type="button">Clear filters</button>
+        </div>
+        <div id="listing-grid" class="listing-grid"></div>
+        <p id="active-filters" class="active-filters" aria-live="polite"></p>
+        <p id="search-status" class="search-status" aria-live="polite"></p>
+        <p id="empty-state" class="empty-state" hidden>No listings match your search.</p>
+      </section>
+    </main>
+
+    <aside class="chat-widget" aria-label="Catalogue assistant">
+      <section id="chat-panel" class="chat-panel" hidden aria-labelledby="chat-title">
+        <header class="chat-header">
+          <div>
+            <h2 id="chat-title">Need help finding something?</h2>
+          </div>
+          <button id="close-chat" class="chat-close" type="button" aria-label="Close catalogue assistant">&times;</button>
+        </header>
+        <p class="chat-hint">Ask about prices, categories, or compare listings.</p>
+        <form id="ask-form" class="ask-form">
+          <input id="ask-input" type="text" placeholder="e.g. Kitchen items under $30?" aria-label="Ask a question about the listings" required />
+          <button type="submit">Send</button>
+        </form>
+        <p id="ask-answer" class="ask-answer" aria-live="polite"></p>
+      </section>
+      <button id="open-chat" class="chat-launcher" type="button" aria-expanded="false" aria-controls="chat-panel">
+        <span aria-hidden="true">💬</span><span>Ask about listings</span>
+      </button>
+    </aside>
+
+    <dialog id="listing-modal" class="listing-modal" aria-labelledby="modal-title">
+      <button id="close-modal" class="close-button" aria-label="Close listing details">&times;</button>
+      <div id="modal-content"></div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>

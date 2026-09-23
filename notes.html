@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes | Second Life</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-copy">
+        <a class="brand" href="/">Second Life</a>
+        <p>We breathe new life into your old products.</p>
+      </div>
+      <a class="notes-link" href="/">Browse listings</a>
+    </header>
+    <main class="page-shell notes-page">
+      <p class="eyebrow">Project notes</p>
+      <h1>How this marketplace works</h1>
+      <section class="notes-section">
+        <h2>What we built and who it's for</h2>
+        <p>This is a second-hand marketplace demo for the general public, letting people browse local listings, search using natural language, and ask questions about the catalogue instead of manually scrolling through every item. It includes a browse grid, a detail view for each listing, natural-language semantic search, an AI-powered Q&amp;A assistant, filtering/sorting, and the ability for anyone to add a new listing.</p>
+      </section>
+      <section class="notes-section">
+        <h2>What's seeded, simulated, or limited</h2>
+        <p>The 26 seeded listings use fixed real image URLs; new listings added through the "Add a listing" form also use user-provided image URLs.</p>
+        <p>New listings are stored in memory only (not a real database), so they reset if the server restarts.</p>
+        <p>No real user accounts, authentication, or payment processing, and there is no messaging or contact system between buyers and sellers.</p>
+      </section>
+      <section class="notes-section">
+        <h2>AI tools and models used</h2>
+        <p>Codex CLI (via a class-provided gateway) was used to build the site.</p>
+        <p>Natural-language search uses the text-embedding-3-small embeddings model, combined with a category-tag boost for precision on common terms.</p>
+        <p>Catalogue Q&amp;A uses the gpt-5.6-terra chat model, grounded in the full current catalogue, instructed to answer only from provided data and acknowledge when something isn't available.</p>
+      </section>
+      <section class="notes-section">
+        <h2>What we chose not to build, and why</h2>
+        <p>A real database and persistent listing storage were scoped out in favor of in-memory storage, since seeded/simulated data is an accepted approach for this demo and avoids deployment complexity.</p>
+        <p>Postal-code-based proximity search was considered but scoped out in favor of a simpler location/category filter.</p>
+        <p>Real payments, logistics, and authentication were intentionally left out, as the assignment scope focuses on marketplace browsing and AI features.</p>
+      </section>
+      <section class="notes-section">
+        <h2>Known issues and unfinished parts</h2>
+        <p>New listings and their categories are not persisted; they reset on server restart.</p>
+        <p>No automated tests were run; all functionality was manually verified through the browser during development.</p>
+      </section>
+    </main>
+  </body>
+</html>
