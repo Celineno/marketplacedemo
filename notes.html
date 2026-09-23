@@ -43,6 +43,8 @@
         <h2>Known issues and unfinished parts</h2>
         <p>New listings and their categories are not persisted; they reset on server restart.</p>
         <p>No automated tests were run; all functionality was manually verified through the browser during development.</p>
+        <p> Inconsistency with presenting the results of the Ask for: Single items/ Multiple Items </p>
+	   <p>Search results are precise when a query matches an existing category (e.g. "gaming," "kitchen" return only items in that category). For descriptive or ambiguous queries that don't match a category (e.g. "desk," "room"), results fall back to pure semantic similarity, which can include loosely related items alongside strong matches, since embedding similarity scores for genuinely relevant and irrelevant items can be close for broad terms.</p>
       </section>
     </main>
   </body>

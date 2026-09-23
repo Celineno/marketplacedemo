@@ -15,6 +15,9 @@ const locationFilter = document.querySelector("#location-filter");
 const categoryFilter = document.querySelector("#category-filter");
 const activeFilters = document.querySelector("#active-filters");
 const addListingForm = document.querySelector("#add-listing-form");
+const newPriceInput = document.querySelector("#new-price");
+const newDescriptionInput = document.querySelector("#new-description");
+const descriptionWordCount = document.querySelector("#description-word-count");
 const newImageInput = document.querySelector("#new-image");
 const imagePreview = document.querySelector("#image-preview");
 const addListingStatus = document.querySelector("#add-listing-status");
@@ -28,6 +31,32 @@ const closeChat = document.querySelector("#close-chat");
 
 function formatPrice(price) {
   return new Intl.NumberFormat("en-SG", { style: "currency", currency: "SGD", maximumFractionDigits: 0 }).format(price);
+}
+
+const maximumDescriptionWords = 350;
+
+function countWords(value) {
+  const trimmedValue = value.trim();
+  return trimmedValue ? trimmedValue.split(/\s+/).length : 0;
+}
+
+function updatePriceValidity() {
+  const price = Number(newPriceInput.value);
+  const isValid = newPriceInput.value.trim() !== "" && Number.isFinite(price) && price > 0;
+  newPriceInput.setCustomValidity(isValid || newPriceInput.value.trim() === ""
+    ? ""
+    : "Enter a positive numeric price.");
+}
+
+function updateDescriptionWordCount() {
+  const wordCount = countWords(newDescriptionInput.value);
+  const remaining = maximumDescriptionWords - wordCount;
+  descriptionWordCount.textContent = remaining >= 0
+    ? `${remaining} word${remaining === 1 ? "" : "s"} remaining`
+    : `${Math.abs(remaining)} word${Math.abs(remaining) === 1 ? "" : "s"} over the 350-word limit`;
+  newDescriptionInput.setCustomValidity(wordCount > maximumDescriptionWords
+    ? "Description must be 350 words or fewer."
+    : "");
 }
 
 function filteredListings() {
@@ -164,9 +193,18 @@ newImageInput.addEventListener("input", () => {
   if (imageUrl) imagePreview.src = imageUrl;
   else imagePreview.removeAttribute("src");
 });
+newPriceInput.addEventListener("input", () => {
+  const [whole = "", ...fractionParts] = newPriceInput.value.replace(/[^\d.]/g, "").split(".");
+  newPriceInput.value = fractionParts.length ? `${whole}.${fractionParts.join("")}` : whole;
+  updatePriceValidity();
+});
+newDescriptionInput.addEventListener("input", updateDescriptionWordCount);
 imagePreview.addEventListener("error", () => { imagePreview.hidden = true; });
 addListingForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  updatePriceValidity();
+  updateDescriptionWordCount();
+  if (!addListingForm.reportValidity()) return;
   const formData = new FormData(addListingForm);
   const payload = Object.fromEntries(formData.entries());
   const submitButton = addListingForm.querySelector("button[type=submit]");
@@ -179,6 +217,8 @@ addListingForm.addEventListener("submit", async (event) => {
     const listing = await response.json();
     if (!response.ok) throw new Error(listing.error || "Could not publish the listing.");
     addListingForm.reset();
+    updatePriceValidity();
+    updateDescriptionWordCount();
     imagePreview.hidden = true;
     imagePreview.removeAttribute("src");
     searchInput.value = "";

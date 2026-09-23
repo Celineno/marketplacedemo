@@ -48,6 +48,7 @@ h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -.06em; lin
 .add-listing-form label { display: grid; gap: .35rem; color: var(--muted); font-size: .8rem; font-weight: 700; }
 .add-listing-form input, .add-listing-form textarea { width: 100%; padding: .65rem .75rem; color: var(--ink); border: 1px solid var(--line); border-radius: 7px; outline-color: var(--accent); }
 .add-listing-form textarea { resize: vertical; }
+.word-count { color: var(--muted); font-size: .75rem; font-weight: 500; }
 .form-wide { grid-column: 1 / -1; }
 .new-image-preview { width: 140px; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid var(--line); border-radius: 8px; }
 .form-actions { display: flex; align-items: center; gap: .75rem; }

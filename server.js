@@ -69,6 +69,7 @@ const listings = [
 
 
 const DEFAULT_IMAGE = "";
+const maximumDescriptionWords = 350;
 
 const client = process.env.CLASSGW_KEY
   ? new OpenAI({ apiKey: process.env.CLASSGW_KEY, baseURL: "https://174.138.16.223/openrouter/v1" })
@@ -90,8 +91,9 @@ app.post("/api/listings", (request, response) => {
   const { title, price, location, category, description, image } = request.body || {};
   const numericPrice = Number(price);
   if (![title, location, category, description].every((value) => typeof value === "string" && value.trim())
-    || !Number.isFinite(numericPrice) || numericPrice < 0) {
-    return response.status(400).json({ error: "Title, a valid price, location, category, and description are required." });
+    || !Number.isFinite(numericPrice) || numericPrice <= 0
+    || description.trim().split(/\s+/).length > maximumDescriptionWords) {
+    return response.status(400).json({ error: "Title, a positive price, location, category, and a description of 350 words or fewer are required." });
   }
 
   const newListing = {
@@ -153,7 +155,7 @@ function matchingCategories(query) {
   })));
 }
 
-async function retrieveListings(query, limit = 10) {
+async function retrieveListings(query, limit = 6) {
   const [storedEmbeddings, queryResult] = await Promise.all([
     getListingEmbeddings(), client.embeddings.create({ model: embeddingModel, input: query })
   ]);
